@@ -20,6 +20,13 @@ namespace my_books.Controllers
             _authorsService = authorsService;
         }
 
+        [HttpGet("get-author-with-books-by-id/{authorId}")]
+        public IActionResult GtAuthorWithBooks(int authorId)
+        {
+            var response = _authorsService.GetAuthorWithBooks(authorId);
+            return Ok(response);
+        }
+
         [HttpPost("add-author")]
         public IActionResult AddAuthor([FromBody] AuthorVM author)
         {
