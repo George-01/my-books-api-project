@@ -34,10 +34,10 @@ namespace my_books.Controllers
             return StatusCode(200, book);
         }
 
-        [HttpPost("add-book")]
+        [HttpPost("add-book-with-authors")]
         public IActionResult AddBook([FromBody]BookVM book)
         {
-            _bookService.AddBook(book);
+            _bookService.AddBookWithAuthors(book);
             return StatusCode(201, "Book Created Successfully");
         }
 
