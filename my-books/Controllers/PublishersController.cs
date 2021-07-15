@@ -20,6 +20,13 @@ namespace my_books.Controllers
             _publishersService = publishersService;
         }
 
+        [HttpGet("get-publisher-books-with-authors/{publisherId}")]
+        public IActionResult GetPublisherData(int publisherId)
+        {
+            var response = _publishersService.GetPublisherData(publisherId);
+            return Ok(response);
+        }
+
         [HttpPost("add-publisher")]
         public IActionResult AddAuthor([FromBody] PublisherVM publisher)
         {
