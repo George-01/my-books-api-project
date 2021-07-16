@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using my_books.Data.Services;
 using my_books.Data.ViewModels;
+using my_books.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,11 +28,50 @@ namespace my_books.Controllers
             return Ok(response);
         }
 
-        [HttpPost("add-publisher")]
-        public IActionResult AddAuthor([FromBody] PublisherVM publisher)
+        [HttpGet("get-publisher-by-id/{publisherId}")]
+        public IActionResult GetPublisherById(int publisherId)
         {
-            _publishersService.AddPublisher(publisher);
-            return StatusCode(201, "Publisher Created Successfully");
+            //throw new Exception("This is an Exception that will be handled by middleware");
+            var _response = _publishersService.GetPublisherById(publisherId);
+            if(_response != null)
+            {
+                return Ok(_response);
+            }
+            return NotFound();
+        }
+
+        [HttpPost("add-publisher")]
+        public IActionResult AddPublisher([FromBody] PublisherVM publisher)
+        {
+            try
+            {
+                var newPublisher = _publishersService.AddPublisher(publisher);
+                return Created(nameof(AddPublisher), newPublisher);
+            }
+            catch (PublisherNameException ex)
+            {
+                return BadRequest($"{ex.Message}, Publisher name: {ex.PublisherName}");
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+            //return StatusCode(201, "Publisher Created Successfully");
+        }
+
+        [HttpDelete("delete-publisher-by-Id/{publisherId}")]
+        public IActionResult DeletePublisherById(int publisherId)
+        {
+            try
+            {
+                _publishersService.DeletePublisherById(publisherId);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }            
         }
     }
 }
