@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using my_books.Data.Models;
 using my_books.Data.Services;
 using my_books.Data.ViewModels;
 using my_books.Exceptions;
@@ -21,6 +22,20 @@ namespace my_books.Controllers
             _publishersService = publishersService;
         }
 
+        [HttpGet("get-all-publishers")]
+        public IActionResult GetAllPublishers(string sortBy, string searchString, int pageNumber)
+        {
+            try
+            {
+                var _result = _publishersService.GetAllPublishers(sortBy, searchString, pageNumber);
+                return Ok(_result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest("No Publisher available yet");
+            }
+        }
+
         [HttpGet("get-publisher-books-with-authors/{publisherId}")]
         public IActionResult GetPublisherData(int publisherId)
         {
@@ -28,7 +43,7 @@ namespace my_books.Controllers
             return Ok(response);
         }
 
-        [HttpGet("get-publisher-by-id/{publisherId}")]
+        [HttpGet("get-publisher-by-id/{publisherId}")] //IActionResult
         public IActionResult GetPublisherById(int publisherId)
         {
             //throw new Exception("This is an Exception that will be handled by middleware");
