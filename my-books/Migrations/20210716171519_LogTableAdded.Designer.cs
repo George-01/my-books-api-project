@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using my_books.Data;
 
 namespace my_books.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210716171519_LogTableAdded")]
+    partial class LogTableAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,7 +112,7 @@ namespace my_books.Migrations
                     b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LogEvent")
+                    b.Property<string>("LogEvents")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Message")
@@ -119,11 +121,11 @@ namespace my_books.Migrations
                     b.Property<string>("MessageTemplate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Properties")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("TimeStamp")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("properties")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

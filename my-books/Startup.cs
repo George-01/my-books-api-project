@@ -61,7 +61,7 @@ namespace my_books
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory logger)
         {
             if (env.IsDevelopment())
             {
@@ -77,7 +77,7 @@ namespace my_books
             app.UseAuthorization();
 
             //Exception Handling
-            app.ConfigureBuildInExceptionHandler();
+            app.ConfigureBuildInExceptionHandler(logger);
             //app.ConfigureCustomExceptionHandler();
 
             app.UseEndpoints(endpoints =>
